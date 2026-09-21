@@ -1,5 +1,7 @@
 # agentrust-io
 
+Community updates and contributor highlights: [AgenTrust on LinkedIn](https://www.linkedin.com/company/agentrust-io/).
+
 Building AI agents right now is a lot like adopting a very fast, very confident puppy that also happens to have your API keys. It wanders. It chews on things it shouldn't. And the second you look away, it's leaked embarrassing data all over the floor.
 
 So most of us spend our days wrestling agents into submission: chasing what drifts, mopping up what leaks, hoping the next one behaves. Here's a more fun way to live: build your agents with rules up front that you actually know will be enforced. And you can prove they were.
