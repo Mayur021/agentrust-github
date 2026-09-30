@@ -1,0 +1,46 @@
+name: contributor-check-tests
+
+on:
+  pull_request:
+    paths:
+      - ".github/actions/contributor-check/**"
+      - ".github/workflows/contributor-check-tests.yml"
+  push:
+    branches: [main]
+    paths:
+      - ".github/actions/contributor-check/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+        with:
+          python-version: "3.12"
+      - name: Install test dependencies
+        run: pip install pytest
+      - name: Regression tests
+        run: python -m pytest .github/actions/contributor-check/tests -q
+
+  vendor-integrity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Vendored files match the checksums recorded in vendor/agt/README.md
+        run: |
+          cd .github/actions/contributor-check/vendor/agt
+          sha256sum -c --strict - <<'SUMS'
+          f1c1179c921f59f836e85355b2efdf8641f65b763516f05853f4d216e70ae164  contributor_check.py
+          9650675038e7720a6d5cdd8be058fa38b2e004cc1e6f7bc81c48ed100e4680e1  credential_audit.py
+          da36c10074aa638bf61c5873fbe6cff975533563553689eba5e90329e3d8d7cf  cluster_detect.py
+          d8a5ddbb0695c21b3eae88e6bc85edcda6cbd9721cad3ca9d10fbeeed4fc0636  contributor_check_allowlist.json
+          SUMS
